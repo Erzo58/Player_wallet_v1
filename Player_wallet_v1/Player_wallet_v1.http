@@ -1,0 +1,6 @@
+@Player_wallet_v1_HostAddress = http://localhost:5093
+
+GET {{Player_wallet_v1_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
