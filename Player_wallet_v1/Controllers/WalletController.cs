@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Player_wallet_v1.Model;
+using Player_wallet_v1.Model.Dto;
 using Player_wallet_v1.Services;
 
 namespace Player_wallet_v1.Controllers
@@ -18,7 +19,7 @@ namespace Player_wallet_v1.Controllers
         //
         // register  playet wallet
         [HttpPost]
-        public async Task<IActionResult> RegisterPlayer([FromBody] RegisterPlayerWalletRequest request)
+        public async Task<IActionResult> RegisterPlayer([FromBody] RegisterPlayerRequest request)
         {
             var success = await _walletService.RegisterPlayerWalletAsync(request.PlayerId);
             if (!success)

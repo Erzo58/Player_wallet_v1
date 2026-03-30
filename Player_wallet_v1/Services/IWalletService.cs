@@ -7,7 +7,7 @@ namespace Player_wallet_v1.Services
     {
         Task<bool> RegisterPlayerWalletAsync(Guid playerId);
         Task<decimal> GetBalanceAsync(Guid playerId);
-        Task<IEnumerable<TransactionDto>> GetPlayerTransactionsAsync(Guid playerId);
+        Task<IEnumerable<TransactionRecordDto>> GetPlayerTransactionsAsync(Guid playerId);
         Task<TransactionResponseDto> ProcessTransactionAsync(Guid playerId, TransactionRequestDto request);
     }
 }

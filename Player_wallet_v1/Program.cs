@@ -1,17 +1,25 @@
+using Player_wallet_v1.Repository;
+using Player_wallet_v1.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<IPlayerRepository, PlayerRepository>();
+builder.Services.AddSingleton<ITransactionRepository, TransactionRepository>();
+
+builder.Services.AddSingleton<IWalletService, WalletService>();
+
+// --------------------------------------------------------
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
