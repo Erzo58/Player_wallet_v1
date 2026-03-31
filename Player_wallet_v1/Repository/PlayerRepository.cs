@@ -4,17 +4,17 @@ namespace Player_wallet_v1.Repository
 {
     public class PlayerRepository : IPlayerRepository
     {
-        private readonly ConcurrentDictionary<Guid, decimal> _wallets = new();
+        private readonly ConcurrentDictionary<Guid, decimal> _wallet = new();
 
         public Task<bool> CreatePlayerWalletAsync(Guid playerId)
         {
-            bool added = _wallets.TryAdd(playerId, 0m);
+            bool added = _wallet.TryAdd(playerId, 0m);
             return Task.FromResult(added);
         }
 
         public Task<decimal?> GetBalanceAsync(Guid playerId)
         {
-            if (_wallets.TryGetValue(playerId, out var balance))
+            if (_wallet.TryGetValue(playerId, out var balance))
                 return Task.FromResult<decimal?>(balance);
 
             return Task.FromResult<decimal?>(null);
@@ -22,9 +22,9 @@ namespace Player_wallet_v1.Repository
 
         public Task UpdateBalanceAsync(Guid playerId, decimal newBalance)
         {
-            if (_wallets.ContainsKey(playerId))
+            if (_wallet.ContainsKey(playerId))
             {
-                _wallets[playerId] = newBalance;
+                _wallet[playerId] = newBalance;
             }
             return Task.CompletedTask;
         }

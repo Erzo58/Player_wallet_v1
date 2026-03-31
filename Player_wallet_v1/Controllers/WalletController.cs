@@ -18,17 +18,25 @@ namespace Player_wallet_v1.Controllers
 
         //
         // register  playet wallet
-        [HttpPost]
+        /// <summary>
+        /// register wallet for new player, to add a new player change the guid ID
+        /// </summary>
+        [HttpPost("walletAdd")]
         public async Task<IActionResult> RegisterPlayer([FromBody] RegisterPlayerRequest request)
         {
             var success = await _walletService.RegisterPlayerWalletAsync(request.PlayerId);
             if (!success)
                 return Conflict(new { Message = "Player's wallet is already registered." }); 
 
-            return CreatedAtAction(nameof(GetBalance), new { playerId = request.PlayerId }, null);
+            return CreatedAtAction(nameof(GetBalance),new { playerId = request.PlayerId }, new { playerId = request.PlayerId, walletBalance = 0 });
         }
 
         // get player balance
+        /// <summary>
+        /// get player's balance
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
         [HttpGet("{playerId:guid}/balance")]
         public async Task<IActionResult> GetBalance(Guid playerId)
         {
@@ -37,7 +45,14 @@ namespace Player_wallet_v1.Controllers
         }
 
         // credit transaction
-        [HttpPost("{playerId:guid}/transactions")]
+        /// <summary>
+        /// credit transaction to player's wallet, to create a new transaction change the guid ID
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+
+        [HttpPost("{playerId:guid}/credittransactions")]
         public async Task<IActionResult> CreditTransaction(Guid playerId, [FromBody] TransactionRequestDto request)
         {
             var result = await _walletService.ProcessTransactionAsync(playerId, request);
@@ -49,6 +64,11 @@ namespace Player_wallet_v1.Controllers
         }
 
         // get transactions
+        /// <summary>
+        /// get list of saved transactions
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
         [HttpGet("{playerId:guid}/transactions")]
         public async Task<IActionResult> GetTransactions(Guid playerId)
         {
